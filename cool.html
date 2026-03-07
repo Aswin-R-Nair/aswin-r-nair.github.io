@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cool Stuff - Aswin</title>
+  <style>
+    @font-face {
+      font-family: 'Chakra Petch';
+      font-style: normal;
+      font-weight: 300;
+      font-display: swap;
+      src: url(fonts/chakra-petch-300.woff2) format('woff2');
+    }
+    @font-face {
+      font-family: 'Chakra Petch';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url(fonts/chakra-petch-400.woff2) format('woff2');
+    }
+    @font-face {
+      font-family: 'Chakra Petch';
+      font-style: normal;
+      font-weight: 500;
+      font-display: swap;
+      src: url(fonts/chakra-petch-500.woff2) format('woff2');
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Chakra Petch', system-ui, sans-serif;
+      min-height: 100vh;
+      background: #0f0f0f;
+      color: #e0e0e0;
+      padding: 2rem 1.5rem;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    a { color: #e0e0e0; }
+    .back {
+      display: inline-block;
+      text-decoration: none;
+      border: 1px solid #333;
+      padding: 0.4rem 1rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      transition: background 0.2s;
+      margin-bottom: 2rem;
+    }
+    .back:hover { background: #222; }
+    h1 {
+      font-weight: 500;
+      font-size: 1.8rem;
+      margin-bottom: 2rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .card {
+      border: 1px solid #222;
+      border-radius: 8px;
+      padding: 1.2rem;
+      transition: border-color 0.2s;
+    }
+    .card:hover { border-color: #444; }
+    .card .label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #666;
+      margin-bottom: 0.4rem;
+    }
+    .card h2 {
+      font-weight: 500;
+      font-size: 1rem;
+      margin-bottom: 0.4rem;
+    }
+    .card h2 a {
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .card h2 a:hover { color: #fff; }
+    .card p {
+      font-size: 0.85rem;
+      color: #999;
+      line-height: 1.5;
+    }
+    @media (max-width: 480px) {
+      .grid { grid-template-columns: 1fr; }
+      h1 { font-size: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+  <a href="index.html" class="back">&larr; Back</a>
+  <h1>Cool Stuff</h1>
+  <div class="grid">
+    <div class="card">
+      <div class="label">Blog Post</div>
+      <h2><a href="#">Building a Particle System in Vanilla JS</a></h2>
+      <p>A walkthrough of creating performant canvas animations without any libraries.</p>
+    </div>
+    <div class="card">
+      <div class="label">Blog Post</div>
+      <h2><a href="#">Thoughts on Minimal Web Design</a></h2>
+      <p>Why less is more when it comes to personal websites and portfolios.</p>
+    </div>
+    <div class="card">
+      <div class="label">GitHub Project</div>
+      <h2><a href="#">awesome-tool</a></h2>
+      <p>A CLI tool that does something really useful. Built with Go.</p>
+    </div>
+    <div class="card">
+      <div class="label">GitHub Project</div>
+      <h2><a href="#">web-experiments</a></h2>
+      <p>A collection of creative coding experiments and interactive demos.</p>
+    </div>
+  </div>
+</body>
+</html>

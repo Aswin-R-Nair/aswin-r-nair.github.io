@@ -84,13 +84,14 @@
 <body>
   <canvas id="particles"></canvas>
   <nav>
-    <a href="https://github.com/aswin" target="_blank">GitHub</a>
-    <a href="https://linkedin.com/in/aswin" target="_blank">LinkedIn</a>
-    <a href="https://substack.com/@aswin" target="_blank">Substack</a>
+    <a href="https://github.com/aswin-r-nair" target="_blank">GitHub</a>
+    <a href="https://linkedin.com/in/asw1n-r-n41r" target="_blank">LinkedIn</a>
+    <a href="https://aswinrnair.substack.com" target="_blank">Substack</a>
+    <a href="cool.html">Cool Stuff</a>
   </nav>
   <div class="text">
-    <p>hey im Aswin</p>
-    <p>Im a developer who likes building things for the web</p>
+    <p>Hey, I'm Aswin R Nair</p>
+    <p>I'm someone whos interested in how things work. All the way from the universe to Artificial Intelligence.</p>
   </div>
   <script>
     const canvas = document.getElementById('particles');
@@ -105,6 +106,15 @@
     const CORNER_R = 40;
 
     let mouse = { x: -9999, y: -9999 };
+    let sucking = false;
+    let suckTarget = { x: 0, y: 0 };
+    let suckProgress = 0;
+    let suckHref = '';
+    let suckNewTab = false;
+    let respawning = false;
+    let respawnStart = 0;
+    const RESPAWN_DELAY = 7000; // 7s before fade-in starts
+    const RESPAWN_FADE = 2000; // 2s fade-in duration
 
     let seg = []; // segment lengths for rounded rect
 
@@ -130,6 +140,29 @@
       mouse.x = t.clientX; mouse.y = t.clientY;
     }, { passive: true });
     window.addEventListener('touchend', () => { mouse.x = -9999; mouse.y = -9999; });
+
+    // Suck particles into clicked button, then navigate
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', e => {
+        if (sucking) return;
+        e.preventDefault();
+        const rect = link.getBoundingClientRect();
+        suckTarget.x = rect.left + rect.width / 2;
+        suckTarget.y = rect.top + rect.height / 2;
+        suckHref = link.href;
+        suckNewTab = link.target === '_blank';
+        sucking = true;
+        suckProgress = 0;
+        // Give each particle its current rendered position for lerp
+        for (const p of particles) {
+          const pt = perimeterPoint(p.t);
+          p.sx = pt.x + pt.nx * p.offset;
+          p.sy = pt.y + pt.ny * p.offset;
+          p.baseSize = p.size;
+          p.baseOpacity = p.opacity;
+        }
+      });
+    });
 
     // Map t (0-1) along rounded-rect perimeter to (x, y) and inward normal
     function perimeterPoint(t) {
@@ -220,6 +253,66 @@
     function animate() {
       ctx.clearRect(0, 0, W, H);
 
+      if (sucking) {
+        suckProgress += 0.04; // ~500ms to complete
+        const t = Math.min(suckProgress, 1);
+        const ease = t * t * t; // cubic ease-in for acceleration feel
+        let allDone = t >= 1;
+
+        for (const p of particles) {
+          const px = p.sx + (suckTarget.x - p.sx) * ease;
+          const py = p.sy + (suckTarget.y - p.sy) * ease;
+          const scale = 1 - ease;
+
+          ctx.save();
+          ctx.globalAlpha = p.baseOpacity * scale * 0.25;
+          ctx.fillStyle = '#999';
+          ctx.beginPath();
+          ctx.arc(px, py, (p.baseSize + 6) * scale, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.globalAlpha = p.baseOpacity * scale;
+          ctx.fillStyle = '#aaa';
+          ctx.beginPath();
+          ctx.arc(px, py, p.baseSize * scale, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+
+        if (allDone) {
+          if (suckNewTab) {
+            window.open(suckHref, '_blank');
+            // Respawn particles after delay
+            sucking = false;
+            respawning = true;
+            respawnStart = performance.now();
+            // Re-randomize particle positions
+            for (const p of particles) {
+              p.t = Math.random();
+              p.offset = BAND_MIN + Math.random() * (BAND_MAX - BAND_MIN);
+            }
+          } else {
+            window.location.href = suckHref;
+            return;
+          }
+        }
+
+        requestAnimationFrame(animate);
+        return;
+      }
+
+      // Respawn fade-in multiplier
+      let fadeIn = 1;
+      if (respawning) {
+        const elapsed = performance.now() - respawnStart;
+        if (elapsed < RESPAWN_DELAY) {
+          fadeIn = 0;
+        } else {
+          fadeIn = Math.min((elapsed - RESPAWN_DELAY) / RESPAWN_FADE, 1);
+          if (fadeIn >= 1) respawning = false;
+        }
+      }
+
       for (const p of particles) {
         // Advance clockwise
         p.t += p.speed;
@@ -243,14 +336,14 @@
 
         // Draw glow (cheap radial gradient instead of shadowBlur)
         ctx.save();
-        ctx.globalAlpha = p.opacity * 0.25;
+        ctx.globalAlpha = p.opacity * fadeIn * 0.25;
         ctx.fillStyle = '#999';
         ctx.beginPath();
         ctx.arc(px, py, p.size + 6, 0, Math.PI * 2);
         ctx.fill();
 
         // Draw core particle
-        ctx.globalAlpha = p.opacity;
+        ctx.globalAlpha = p.opacity * fadeIn;
         ctx.fillStyle = '#aaa';
         ctx.beginPath();
         ctx.arc(px, py, p.size, 0, Math.PI * 2);
