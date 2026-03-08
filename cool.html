@@ -51,6 +51,12 @@
     h1 {
       font-weight: 500;
       font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+    .intro {
+      color: #999;
+      font-size: 0.95rem;
+      line-height: 1.6;
       margin-bottom: 2rem;
     }
     .grid {
@@ -59,10 +65,14 @@
       gap: 1rem;
     }
     .card {
+      display: block;
+      text-decoration: none;
+      color: #e0e0e0;
       border: 1px solid #222;
       border-radius: 8px;
       padding: 1.2rem;
       transition: border-color 0.2s;
+      cursor: pointer;
     }
     .card:hover { border-color: #444; }
     .card .label {
@@ -77,11 +87,6 @@
       font-size: 1rem;
       margin-bottom: 0.4rem;
     }
-    .card h2 a {
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .card h2 a:hover { color: #fff; }
     .card p {
       font-size: 0.85rem;
       color: #999;
@@ -96,27 +101,28 @@
 <body>
   <a href="index.html" class="back">&larr; Back</a>
   <h1>Cool Stuff</h1>
+  <p class="intro">A collection of things I've been working on and thinking about. I like to explore ideas across physics, AI, and software — here are some highlights.</p>
   <div class="grid">
-    <div class="card">
+    <!-- <a class="card" href="https://example.com/blog/particle-system" target="_blank">
       <div class="label">Blog Post</div>
-      <h2><a href="#">Building a Particle System in Vanilla JS</a></h2>
+      <h2>Building a Particle System in Vanilla JS</h2>
       <p>A walkthrough of creating performant canvas animations without any libraries.</p>
-    </div>
-    <div class="card">
+    </a>
+    <a class="card" href="https://example.com/blog/minimal-web-design" target="_blank">
       <div class="label">Blog Post</div>
-      <h2><a href="#">Thoughts on Minimal Web Design</a></h2>
+      <h2>Thoughts on Minimal Web Design</h2>
       <p>Why less is more when it comes to personal websites and portfolios.</p>
-    </div>
-    <div class="card">
+    </a>
+    <a class="card" href="https://github.com/example/awesome-tool" target="_blank">
       <div class="label">GitHub Project</div>
-      <h2><a href="#">awesome-tool</a></h2>
+      <h2>awesome-tool</h2>
       <p>A CLI tool that does something really useful. Built with Go.</p>
-    </div>
-    <div class="card">
+    </a> -->
+    <a class="card" href="https://github.com/Aswin-R-Nair/GalaxyMap" target="_blank">
       <div class="label">GitHub Project</div>
-      <h2><a href="#">web-experiments</a></h2>
-      <p>A collection of creative coding experiments and interactive demos.</p>
-    </div>
+      <h2>GalaxyMap</h2>
+      <p>An interactive map of the milkyway, inspired from the game Mass Effect but populated with real Gaia DR3 data .</p>
+    </a>
   </div>
 </body>
 </html>
