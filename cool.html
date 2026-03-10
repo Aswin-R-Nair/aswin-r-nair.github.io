@@ -92,6 +92,18 @@
       color: #999;
       line-height: 1.5;
     }
+    .sim-btn {
+      display: inline-block;
+      text-decoration: none;
+      color: #e0e0e0;
+      border: 1px solid #444;
+      padding: 0.5rem 1.2rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      margin-top: 0.75rem;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .sim-btn:hover { background: #222; border-color: #666; }
     @media (max-width: 480px) {
       .grid { grid-template-columns: 1fr; }
       h1 { font-size: 1.4rem; }
@@ -124,5 +136,6 @@
       <p>An interactive map of the milkyway, inspired from the game Mass Effect but populated with real Gaia DR3 data .</p>
     </a>
   </div>
+  <a href="https://aswin-r-nair.github.io/GalaxyMap/" target="_blank" class="sim-btn">Try the Simulation &rarr;</a>
 </body>
 </html>
