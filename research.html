@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Research - Aswin</title>
+  <style>
+    @font-face {
+      font-family: 'Chakra Petch';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url('fonts/chakra-petch-400.woff2') format('woff2');
+    }
+
+    @font-face {
+      font-family: 'Chakra Petch';
+      font-style: normal;
+      font-weight: 500;
+      font-display: swap;
+      src: url('fonts/chakra-petch-500.woff2') format('woff2');
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Chakra Petch', system-ui, sans-serif;
+      background: #f0efef;
+      color: #1f1f1f;
+      padding: 3rem 1.5rem 4rem;
+    }
+
+    main {
+      max-width: 76rem;
+      margin: 0 auto;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      margin: 0 0 2.5rem;
+      font-size: 3rem;
+      line-height: 1;
+    }
+
+    section + section {
+      margin-top: 2.5rem;
+    }
+
+    h2 {
+      margin: 0 0 1.25rem;
+      font-size: 2rem;
+    }
+
+    p {
+      margin: 0;
+      max-width: 72rem;
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+
+    .paper-note {
+      margin-top: 0.35rem;
+      font-size: 0.95rem;
+      color: #7a7a7a;
+    }
+
+    .paper-list {
+      display: grid;
+      gap: 2rem;
+    }
+
+    .paper-entry {
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid #6f72ff;
+    }
+
+    .paper-entry h3 {
+      margin: 0 0 0.75rem;
+      font-size: 1.5rem;
+      font-weight: 400;
+    }
+
+    .paper-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .paper-links a,
+    .paper-entry h3 a,
+    .back-link {
+      color: #5d63ff;
+      text-decoration: none;
+    }
+
+    .paper-links a:hover,
+    .paper-entry h3 a:hover,
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 2rem 1rem 3rem;
+      }
+
+      h1 {
+        font-size: 2.4rem;
+        margin-bottom: 2rem;
+      }
+
+      h2 {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <a class="back-link" href="index.html">Back</a>
+    <h1>Research</h1>
+
+
+    <section>
+      <h2>Masters Thesis</h2>
+      <div class="paper-list">
+        <article class="paper-entry">
+          <h3><a href="files/thesis.pdf" target="_blank" rel="noreferrer">Numerical Simulation of Accretion onto Compact Objects with Hard Surface</a></h3>
+          <div class="paper-links">
+            <a href="files/thesis.pdf" target="_blank" rel="noreferrer">Thesis PDF</a>
+            <a href="files/ASI_poster.pdf" target="_blank" rel="noreferrer">Poster</a>
+          </div>
+          <p>Placeholder description for the thesis entry. You can replace this later with a short summary of the problem, your method, and the main result or takeaway.</p>
+          <p class="paper-note">Astronomical Society of India, 2025</p>
+        </article>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

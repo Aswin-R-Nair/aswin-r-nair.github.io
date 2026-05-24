@@ -8,354 +8,101 @@
     @font-face {
       font-family: 'Chakra Petch';
       font-style: normal;
-      font-weight: 300;
-      font-display: swap;
-      src: url(fonts/chakra-petch-300.woff2) format('woff2');
-    }
-    @font-face {
-      font-family: 'Chakra Petch';
-      font-style: normal;
       font-weight: 400;
       font-display: swap;
-      src: url(fonts/chakra-petch-400.woff2) format('woff2');
+      src: url('fonts/chakra-petch-400.woff2') format('woff2');
     }
+
     @font-face {
       font-family: 'Chakra Petch';
       font-style: normal;
       font-weight: 500;
       font-display: swap;
-      src: url(fonts/chakra-petch-500.woff2) format('woff2');
+      src: url('fonts/chakra-petch-500.woff2') format('woff2');
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
+      margin: 0;
       font-family: 'Chakra Petch', system-ui, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      background: #0f0f0f;
-      color: #e0e0e0;
-      overflow: hidden;
+      background: #f0efef;
+      color: #1f1f1f;
+      padding: 3rem 1.5rem;
     }
-    canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-    }
-    nav {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-    nav a {
-      color: #e0e0e0;
-      text-decoration: none;
-      border: 1px solid #333;
-      padding: 0.5rem 1.2rem;
-      border-radius: 6px;
-      font-size: 0.9rem;
-      transition: background 0.2s;
-    }
-    nav a:hover { background: #222; }
-    .text {
-      position: relative;
-      z-index: 1;
+
+    header {
       text-align: center;
-      line-height: 1.6;
-      font-size: 1.25rem;
-      padding: 0 1.5rem;
+      max-width: 40rem;
+      margin: 0 auto 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid #b8b8b8;
     }
-    @media (max-width: 480px) {
-      .text {
-        text-align: left;
-        font-size: 1.1rem;
-      }
-      nav { gap: 0.6rem; }
-      nav a { padding: 0.5rem 0.9rem; font-size: 0.85rem; }
+
+    h1 {
+      margin: 0 0 0.75rem;
+      font-size: 3rem;
+    }
+
+    header p {
+      margin: 0;
+    }
+
+    nav {
+      max-width: 40rem;
+      margin: 0 auto;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav li + li {
+      margin-top: 0.75rem;
+    }
+
+    .nav-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: baseline;
+    }
+
+    .nav-label {
+      font-weight: 500;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
     }
   </style>
 </head>
 <body>
-  <canvas id="particles"></canvas>
-  <nav>
-    <a href="https://github.com/aswin-r-nair" target="_blank">GitHub</a>
-    <a href="https://linkedin.com/in/asw1n-r-n41r" target="_blank">LinkedIn</a>
-    <a href="https://aswinrnair.substack.com" target="_blank">Substack</a>
-    <a href="cool.html">Cool Stuff</a>
+  <header>
+    <h1>Aswin R Nair</h1>
+    <p>I love learning how things work. So far its been about things in space, but now I'm looking at AI and how we can make them safe!</p>
+  </header>
+
+  <nav aria-label="Main navigation">
+    <ul>
+      <li class="nav-row">
+        <span class="nav-label">Pages:</span>
+        <span class="nav-links">
+          <a href="about.html">About me</a>
+          <a href="research.html">Research</a>
+        </span>
+      </li>
+      <li class="nav-row">
+        <span class="nav-label">Links:</span>
+        <span class="nav-links">
+          <a href="https://github.com/aswin-r-nair" target="_blank" rel="noreferrer">GitHub</a>
+          <a href="https://linkedin.com/in/asw1n-r-n41r" target="_blank" rel="noreferrer">LinkedIn</a>
+          <a href="https://aswinrnair.substack.com" target="_blank" rel="noreferrer">Substack</a>
+        </span>
+      </li>
+    </ul>
   </nav>
-  <div class="text">
-    <p>Hey, I'm Aswin R Nair</p>
-    <p>I'm interested in how things work. Ranging from the cosmos to artificial intelligence.</p>
-  </div>
-  <script>
-    const canvas = document.getElementById('particles');
-    const ctx = canvas.getContext('2d');
-
-    let W, H, perimeter;
-    const BAND_MIN = 10;
-    const BAND_MAX = 50;
-    const PARTICLE_COUNT = 150;
-    const CURSOR_RADIUS = 60;
-    const REPULSION_STRENGTH = 50;
-    const CORNER_R = 40;
-
-    let mouse = { x: -9999, y: -9999 };
-    let sucking = false;
-    let suckTarget = { x: 0, y: 0 };
-    let suckProgress = 0;
-    let suckHref = '';
-    let suckNewTab = false;
-    let respawning = false;
-    let respawnStart = 0;
-    const RESPAWN_DELAY = 7000; // 7s before fade-in starts
-    const RESPAWN_FADE = 2000; // 2s fade-in duration
-
-    let seg = []; // segment lengths for rounded rect
-
-    function resize() {
-      W = canvas.width = window.innerWidth;
-      H = canvas.height = window.innerHeight;
-      const r = CORNER_R;
-      const arcLen = Math.PI * r / 2;
-      const topLen = W - 2 * r;
-      const rightLen = H - 2 * r;
-      const bottomLen = W - 2 * r;
-      const leftLen = H - 2 * r;
-      // 8 segments: top, TR arc, right, BR arc, bottom, BL arc, left, TL arc
-      seg = [topLen, arcLen, rightLen, arcLen, bottomLen, arcLen, leftLen, arcLen];
-      perimeter = seg.reduce((a, b) => a + b, 0);
-    }
-    resize();
-    window.addEventListener('resize', resize);
-    window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
-    window.addEventListener('mouseleave', () => { mouse.x = -9999; mouse.y = -9999; });
-    window.addEventListener('touchmove', e => {
-      const t = e.touches[0];
-      mouse.x = t.clientX; mouse.y = t.clientY;
-    }, { passive: true });
-    window.addEventListener('touchend', () => { mouse.x = -9999; mouse.y = -9999; });
-
-    // Suck particles into clicked button, then navigate
-    document.querySelectorAll('nav a').forEach(link => {
-      link.addEventListener('click', e => {
-        if (sucking) return;
-        e.preventDefault();
-        const rect = link.getBoundingClientRect();
-        suckTarget.x = rect.left + rect.width / 2;
-        suckTarget.y = rect.top + rect.height / 2;
-        suckHref = link.href;
-        suckNewTab = link.target === '_blank';
-        sucking = true;
-        suckProgress = 0;
-        // Give each particle its current rendered position for lerp
-        for (const p of particles) {
-          const pt = perimeterPoint(p.t);
-          p.sx = pt.x + pt.nx * p.offset;
-          p.sy = pt.y + pt.ny * p.offset;
-          p.baseSize = p.size;
-          p.baseOpacity = p.opacity;
-        }
-      });
-    });
-
-    // Map t (0-1) along rounded-rect perimeter to (x, y) and inward normal
-    function perimeterPoint(t) {
-      let d = t * perimeter;
-      const r = CORNER_R;
-      let x, y, nx, ny;
-
-      // Top edge (left to right)
-      if (d < seg[0]) {
-        x = r + d; y = 0; nx = 0; ny = 1;
-        return { x, y, nx, ny };
-      }
-      d -= seg[0];
-
-      // Top-right arc
-      if (d < seg[1]) {
-        const a = d / r; // 0 to π/2
-        x = W - r + Math.sin(a) * r;
-        y = r - Math.cos(a) * r;
-        nx = -Math.sin(a); ny = Math.cos(a);
-        return { x, y, nx, ny };
-      }
-      d -= seg[1];
-
-      // Right edge (top to bottom)
-      if (d < seg[2]) {
-        x = W; y = r + d; nx = -1; ny = 0;
-        return { x, y, nx, ny };
-      }
-      d -= seg[2];
-
-      // Bottom-right arc
-      if (d < seg[3]) {
-        const a = d / r;
-        x = W - r + Math.cos(a) * r;
-        y = H - r + Math.sin(a) * r;
-        nx = -Math.cos(a); ny = -Math.sin(a);
-        return { x, y, nx, ny };
-      }
-      d -= seg[3];
-
-      // Bottom edge (right to left)
-      if (d < seg[4]) {
-        x = W - r - d; y = H; nx = 0; ny = -1;
-        return { x, y, nx, ny };
-      }
-      d -= seg[4];
-
-      // Bottom-left arc
-      if (d < seg[5]) {
-        const a = d / r;
-        x = r - Math.sin(a) * r;
-        y = H - r + Math.cos(a) * r;
-        nx = Math.sin(a); ny = -Math.cos(a);
-        return { x, y, nx, ny };
-      }
-      d -= seg[5];
-
-      // Left edge (bottom to top)
-      if (d < seg[6]) {
-        x = 0; y = H - r - d; nx = 1; ny = 0;
-        return { x, y, nx, ny };
-      }
-      d -= seg[6];
-
-      // Top-left arc
-      {
-        const a = d / r;
-        x = r - Math.cos(a) * r;
-        y = r - Math.sin(a) * r;
-        nx = Math.cos(a); ny = Math.sin(a);
-        return { x, y, nx, ny };
-      }
-    }
-
-    // Create particles
-    const particles = [];
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
-      particles.push({
-        t: Math.random(),
-        offset: BAND_MIN + Math.random() * (BAND_MAX - BAND_MIN),
-        speed: 0.00015 + Math.random() * 0.0002,
-        size: 1 + Math.random() * 2,
-        opacity: 0.3 + Math.random() * 0.5,
-      });
-    }
-
-    function animate() {
-      ctx.clearRect(0, 0, W, H);
-
-      if (sucking) {
-        suckProgress += 0.04; // ~500ms to complete
-        const t = Math.min(suckProgress, 1);
-        const ease = t * t * t; // cubic ease-in for acceleration feel
-        let allDone = t >= 1;
-
-        for (const p of particles) {
-          const px = p.sx + (suckTarget.x - p.sx) * ease;
-          const py = p.sy + (suckTarget.y - p.sy) * ease;
-          const scale = 1 - ease;
-
-          ctx.save();
-          ctx.globalAlpha = p.baseOpacity * scale * 0.25;
-          ctx.fillStyle = '#999';
-          ctx.beginPath();
-          ctx.arc(px, py, (p.baseSize + 6) * scale, 0, Math.PI * 2);
-          ctx.fill();
-
-          ctx.globalAlpha = p.baseOpacity * scale;
-          ctx.fillStyle = '#aaa';
-          ctx.beginPath();
-          ctx.arc(px, py, p.baseSize * scale, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.restore();
-        }
-
-        if (allDone) {
-          if (suckNewTab) {
-            window.open(suckHref, '_blank');
-            // Respawn particles after delay
-            sucking = false;
-            respawning = true;
-            respawnStart = performance.now();
-            // Re-randomize particle positions
-            for (const p of particles) {
-              p.t = Math.random();
-              p.offset = BAND_MIN + Math.random() * (BAND_MAX - BAND_MIN);
-            }
-          } else {
-            window.location.href = suckHref;
-            return;
-          }
-        }
-
-        requestAnimationFrame(animate);
-        return;
-      }
-
-      // Respawn fade-in multiplier
-      let fadeIn = 1;
-      if (respawning) {
-        const elapsed = performance.now() - respawnStart;
-        if (elapsed < RESPAWN_DELAY) {
-          fadeIn = 0;
-        } else {
-          fadeIn = Math.min((elapsed - RESPAWN_DELAY) / RESPAWN_FADE, 1);
-          if (fadeIn >= 1) respawning = false;
-        }
-      }
-
-      for (const p of particles) {
-        // Advance clockwise
-        p.t += p.speed;
-        if (p.t > 1) p.t -= 1;
-
-        const pt = perimeterPoint(p.t);
-
-        // Base position offset inward from edge
-        let px = pt.x + pt.nx * p.offset;
-        let py = pt.y + pt.ny * p.offset;
-
-        // Cursor repulsion
-        const dx = px - mouse.x;
-        const dy = py - mouse.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < CURSOR_RADIUS && dist > 0) {
-          const force = (1 - dist / CURSOR_RADIUS) * REPULSION_STRENGTH;
-          px += (dx / dist) * force;
-          py += (dy / dist) * force;
-        }
-
-        // Draw glow (cheap radial gradient instead of shadowBlur)
-        ctx.save();
-        ctx.globalAlpha = p.opacity * fadeIn * 0.25;
-        ctx.fillStyle = '#999';
-        ctx.beginPath();
-        ctx.arc(px, py, p.size + 6, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Draw core particle
-        ctx.globalAlpha = p.opacity * fadeIn;
-        ctx.fillStyle = '#aaa';
-        ctx.beginPath();
-        ctx.arc(px, py, p.size, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.restore();
-      }
-
-      requestAnimationFrame(animate);
-    }
-
-    animate();
-  </script>
 </body>
 </html>
