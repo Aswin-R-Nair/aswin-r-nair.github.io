@@ -56,6 +56,26 @@
       line-height: 1;
     }
 
+    .page-heading {
+      margin: 0 0 2.5rem;
+    }
+
+    .page-heading h1 {
+      margin: 0;
+    }
+
+    .cv-link {
+      display: inline-block;
+      margin-top: 0.75rem;
+      color: #5d63ff;
+      text-decoration: none;
+      font-size: 1.05rem;
+    }
+
+    .cv-link:hover {
+      text-decoration: underline;
+    }
+
     section + section {
       margin-top: 2.5rem;
     }
@@ -82,9 +102,12 @@
         padding: 2rem 1rem 3rem;
       }
 
+      .page-heading {
+        margin-bottom: 2rem;
+      }
+
       h1 {
         font-size: 2.4rem;
-        margin-bottom: 2rem;
       }
 
       h2 {
@@ -96,23 +119,21 @@
 <body>
   <main>
     <a class="back-link" href="index.html">Back</a>
-    <h1>About Me</h1>
+    <div class="page-heading">
+      <h1>About Me</h1>
+      <a class="cv-link" href="files/CV2026.pdf">CV / Resume</a>
+    </div>
 
     <section>
-      <h2>Background</h2>
+      <!-- <h2>Background</h2> -->
       <div class="content-block">
-        <p>This is a placeholder introduction for your background. You can replace it with a short overview of who you are, what you work on, and the areas that currently hold your attention.</p>
-        <p>This second paragraph can hold a bit more personal context, a brief career arc, or the themes that connect your research, engineering, and writing.</p>
+        <p>Hello, I'm Aswin R Nair! I am currently a Research Assistnant at the Raman Research Institute in Bengaluru. I work on creating simulations of radiation transport in the Interstellar Medium. I graduated with a master's degree in astrophysics from the Indian Institute of Science Education and Research Mohali in 2025.</p>
+        <p>In the past I have worked on various numerical simulations that deal with diverse astrophysical phenomena, where I use both analytical and computational methods to model and understand these systems. My masters thesis was on "Numerical Simulation of Accretion onto Compact Objects with Hard Surface" and you can read more about it <a class="inline-link" href="research.html">here</a>.</p>
+        <p>Right now I am trying to transition into the field of AI safety. I was part of the BlueDot Impact Technical AI safety June 2026 cohort. I am working on a personal project that involves understanding what we can learn from activation directions extracted from different evaluation datasets. </p>
       </div>
     </section>
 
-    <section>
-      <h2>Interests</h2>
-      <div class="content-block">
-        <p>Use this section for a simple snapshot of the questions you keep returning to. For example: machine learning, physics, software systems, and the broader problem of building useful tools that remain understandable.</p>
-        <p>If you want, you can also point readers toward your <a class="inline-link" href="research.html">research page</a> or external writing from here.</p>
-      </div>
-    </section>
+    
   </main>
 </body>
 </html>
