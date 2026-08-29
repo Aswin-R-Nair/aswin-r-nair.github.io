@@ -47,6 +47,8 @@
 
     section + section {
       margin-top: 2.5rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid #6f72ff;
     }
 
     h2 {
@@ -74,7 +76,6 @@
 
     .paper-entry {
       padding-bottom: 1.25rem;
-      border-bottom: 1px solid #6f72ff;
     }
 
     .paper-entry h3 {
@@ -126,7 +127,38 @@
 
 
     <section>
-      <h2>Master's Thesis</h2>
+      <h4>Independent Projects</h4>
+      <div class="paper-list">
+        <article class="paper-entry">
+          <h3>Can a Model Hide Without Being Taught To?</h3>
+          <div class="paper-links">
+            <a href="https://aswinrnair.substack.com/p/can-a-model-learn-to-hide-without?r=77fnqd&utm_campaign=post-expanded-share&utm_medium=web" target="_blank" rel="nonreferrer"> Substack</a>
+            <a href="https://github.com/Aswin-R-Nair/activation-hiding" target="_blank" rel="nonreferrer"> GitHub</a>
+          </div>
+          <p>
+            Large Language Models are capable of reasoning about their tasks internally, i.e., they are capable of thinking about and executing tasks while the trace of their thoughts might not be visible in their outputs or even in their Chain-of-Thought outputs. This necissitates the monitoring of their activations - the numbers that stream through the brains of an LLM when it is computing its task, akin to directly peering into its brain as thoughts form. Can a model learn to hide even these activations, without any finetuning or RL, entirely in context?
+          </p>
+          <p class="paper-note"> BlueDot Impact Technical Safety Project, July 2026</p>
+
+        </article>
+        <article class="paper-entry">
+          <h3>Behavioural Steering via Linear Probes</h3>
+          <div class="paper-links">
+            <a href="https://github.com/Aswin-R-Nair/truth-vector" target="_blank" rel="nonreferrer"> Github</a>
+          </div>
+          <p>
+            Using linear probes to understand how epistemic honesty is represented in models.
+          </p>
+        </article>
+        
+      </div>
+
+
+    </section>
+
+
+    <section>
+      <h4>Master's Thesis</h4>
       <div class="paper-list">
         <article class="paper-entry">
           <h3><a href="files/thesis.pdf" target="_blank" rel="noreferrer">Numerical Simulation of Accretion onto Compact Objects with Hard Surface</a></h3>
