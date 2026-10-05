@@ -4,6 +4,7 @@
   position: absolute;
   top: 1rem;
   right: 1rem;
+  z-index: 2;                /* above the full-screen pond on the landing page */
   width: 2.5rem;
   height: 2.5rem;
   display: grid;

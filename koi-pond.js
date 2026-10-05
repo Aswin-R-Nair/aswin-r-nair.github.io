@@ -13,7 +13,8 @@ function createKoiPond(mount) {
   // The grid adapts to the container. REF_* is the reference file's fixed
   // grid; fish and lily density are calibrated to it.
   const REF_COLS = 116, REF_ROWS = 46;
-  const MIN_FONT = 6, MAX_FONT = 12, MAX_COLS = 240;
+  const MIN_FONT = 6, MAX_FONT = 14, MAX_COLS = 240;
+  const MIN_COLS = 72;                    // keeps koi in proportion on narrow screens
   let COLS = REF_COLS, ROWS = REF_ROWS;
   let N = COLS * ROWS;
 
@@ -607,7 +608,9 @@ function createKoiPond(mount) {
     const availH = mount.clientHeight;
 
     // 0.6 is only the initial guess; the real ratio is measured below
-    const size = Math.max(MIN_FONT, Math.min(MAX_FONT, availH / REF_ROWS));
+    // from the height, but small enough for MIN_COLS across: a tall phone
+    // screen would otherwise give ~40 columns and koi half the screen wide
+    const size = Math.max(MIN_FONT, Math.min(MAX_FONT, availH / REF_ROWS, availW / (MIN_COLS * 0.6)));
     pond.style.fontSize = size.toFixed(2) + 'px';
 
     // The probe lives inside the stage so it inherits the real font, but it
