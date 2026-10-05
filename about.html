@@ -3,27 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="theme.js"></script>
+  <link rel="stylesheet" href="theme.css">
   <title>About - Aswin</title>
   <style>
-    @font-face {
-      font-family: 'Chakra Petch';
-      font-style: normal;
-      font-weight: 400;
-      font-display: swap;
-      src: url('fonts/chakra-petch-400.woff2') format('woff2');
-    }
-
-    @font-face {
-      font-family: 'Chakra Petch';
-      font-style: normal;
-      font-weight: 500;
-      font-display: swap;
-      src: url('fonts/chakra-petch-500.woff2') format('woff2');
-    }
-
     body {
       margin: 0;
-      font-family: 'Chakra Petch', system-ui, sans-serif;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
       background: #f0efef;
       color: #1f1f1f;
       padding: 3rem 1.5rem 4rem;
@@ -113,6 +99,21 @@
       h2 {
         font-size: 1.6rem;
       }
+    }
+
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+    }
+
+    [data-theme="dark"] body {
+      background: #161616;
+      color: #e4e4e4;
+    }
+
+    [data-theme="dark"] .back-link,
+    [data-theme="dark"] .inline-link,
+    [data-theme="dark"] .cv-link {
+      color: #9ea2ff;
     }
   </style>
 </head>

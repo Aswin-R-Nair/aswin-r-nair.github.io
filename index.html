@@ -3,27 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="theme.js"></script>
+  <link rel="stylesheet" href="theme.css">
   <title>Aswin</title>
+  <link rel="stylesheet" href="koi-pond.css">
   <style>
-    @font-face {
-      font-family: 'Chakra Petch';
-      font-style: normal;
-      font-weight: 400;
-      font-display: swap;
-      src: url('fonts/chakra-petch-400.woff2') format('woff2');
-    }
-
-    @font-face {
-      font-family: 'Chakra Petch';
-      font-style: normal;
-      font-weight: 500;
-      font-display: swap;
-      src: url('fonts/chakra-petch-500.woff2') format('woff2');
-    }
-
     body {
       margin: 0;
-      font-family: 'Chakra Petch', system-ui, sans-serif;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
       background: #f0efef;
       color: #1f1f1f;
       padding: 3rem 1.5rem;
@@ -77,6 +64,28 @@
       flex-wrap: wrap;
       gap: 0.75rem;
     }
+
+    .koi-pond {
+      height: clamp(18rem, 30vw + 8rem, 34rem);
+      margin-top: 2.5rem;
+    }
+
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+    }
+
+    [data-theme="dark"] body {
+      background: #161616;
+      color: #e4e4e4;
+    }
+
+    [data-theme="dark"] header {
+      border-bottom-color: #3d3d3d;
+    }
+
+    [data-theme="dark"] a {
+      color: #9ea2ff;
+    }
   </style>
 </head>
 <body>
@@ -104,5 +113,11 @@
       </li>
     </ul>
   </nav>
+
+  <div class="koi-pond">
+    <p class="koi-pond__hint">Click in the pond to feed ascii koi</p>
+  </div>
+  <script src="koi-pond.js"></script>
+  <script>createKoiPond(document.querySelector('.koi-pond'));</script>
 </body>
 </html>

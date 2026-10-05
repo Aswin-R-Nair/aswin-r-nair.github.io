@@ -1,0 +1,106 @@
+/* ASCII koi pond. Everything is scoped to .koi-pond; see koi-pond.js. */
+
+.koi-pond {
+  /* Light site. The water starts at the page colour and eases into a pale
+     blue towards the middle, so it has no edge. Waves and fish shadows are
+     a darker blue than the water. The koi are inverted like an ink drawing:
+     white koi are charcoal and black markings are pale, since white has no
+     contrast against the page. Orange keeps its hue. Deep (dim) koi fade
+     towards the page. */
+  --water-shallow: #f0efef;
+  --water-deep:    #cde1f1;
+  --water-faint: #b6d0e6;
+  --glint:       #8bb8d8;
+  --shadow:      #b3cbe0;
+  --koi-white:   #35332f;
+  --koi-orange:  #f47149;
+  --koi-black:   #ffffff;
+  --dim-white:   #8b867d;
+  --dim-orange:  #dc9f8a;
+  --dim-black:   #f2f1f1;
+  --lily:        #4a8554;
+  --food:        #c9952e;
+  --dim-food:    #e3c792;
+
+  position: relative;
+  overflow: hidden;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+[data-theme="dark"] .koi-pond {
+  /* Dark site, same idea. Black koi are lifted to a mid grey so they
+     still read against the page. */
+  --water-shallow: #161616;
+  --water-deep:    #111b1a;
+  --water-faint: #232b29;
+  --glint:       #2f4843;
+  --shadow:      #0b0b0b;
+  --koi-white:   #ece8dc;
+  --koi-orange:  #d4562c;
+  --koi-black:   #57565c;
+  --dim-white:   #6d726e;
+  --dim-orange:  #7a4130;
+  --dim-black:   #333336;
+  --lily:        #2c4a33;
+  --food:        #d9b45c;
+  --dim-food:    #7d6a3c;
+}
+
+.koi-pond__hint {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+  margin: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 0.75rem;
+  color: #8a8784;
+  pointer-events: none;
+}
+
+[data-theme="dark"] .koi-pond__hint {
+  color: #6f6c69;
+}
+
+/* feeding is off under reduced motion, so the hint would be wrong */
+.koi-pond--still .koi-pond__hint {
+  display: none;
+}
+
+.koi-pond__stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  cursor: crosshair;
+  touch-action: manipulation;
+}
+
+.koi-pond--still .koi-pond__stage {
+  cursor: default;
+}
+
+.koi-pond canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* The size probe in koi-pond.js also matches this rule and overrides
+   inset/width/height inline. Keep those overrides if this selector changes. */
+.koi-pond pre {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  line-height: 1;
+  letter-spacing: 0;
+  white-space: pre;
+  font-family: inherit;
+  font-size: inherit;
+  font-variant-ligatures: none;
+  text-rendering: optimizeSpeed;
+  pointer-events: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
