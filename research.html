@@ -1,18 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="theme.js"></script>
   <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="koi-pond.css">
+  <link rel="stylesheet" href="pond-page.css">
   <title>Research - Aswin</title>
   <style>
     body {
       margin: 0;
       font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-      background: #f0efef;
+      background: #e5f0e5;
       color: #1f1f1f;
-      padding: 3rem 1.5rem 4rem;
+      padding: 4rem 1.5rem 4rem;
     }
 
     main {
@@ -92,7 +94,7 @@
 
     @media (max-width: 640px) {
       body {
-        padding: 2rem 1rem 3rem;
+        padding: 4rem 1rem 3rem;
       }
 
       h1 {
@@ -126,7 +128,7 @@
   </style>
 </head>
 <body>
-  <main>
+  <main class="panel">
     <a class="back-link" href="index.html">Back</a>
     <h1>Research</h1>
 
@@ -177,5 +179,8 @@
       </div>
     </section>
   </main>
+  <div class="koi-pond"></div>
+  <script src="koi-pond.js"></script>
+  <script>createKoiPond(document.querySelector('.koi-pond'), { persistKey: 'koi-pond' });</script>
 </body>
 </html>

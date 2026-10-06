@@ -3,11 +3,13 @@
 // World space is isotropic: 1 unit = 1 cell WIDTH. A cell is 1/ASPECT tall.
 //
 // Usage: const pond = createKoiPond(mountEl);  ...  pond.destroy();
+// Pass { persistKey: 'name' } to carry the same pond across page loads in
+// the tab: it is saved to sessionStorage on pagehide and restored on load.
 // The mount element is sized by the page's CSS; the pond fits itself inside it.
 // Palette comes from CSS custom properties on the mount (see koi-pond.css).
 // ===========================================================================
 
-function createKoiPond(mount) {
+function createKoiPond(mount, options) {
   'use strict';
 
   // The grid adapts to the container. REF_* is the reference file's fixed
@@ -725,8 +727,10 @@ function createKoiPond(mount) {
     for (let i = 0; i < 60; i++) update(1 / 24);   // settle before first paint
   }
 
-  // after a regrid, top the fish and lilies up (or down) to suit the new area
-  function repopulate() {
+  // after a regrid, top the fish and lilies up (or down) to suit the new area.
+  // keepLilies: a restored same-size pond keeps its pads even if the original
+  // placement fell short of lilyCount().
+  function repopulate(keepLilies) {
     const target = fishCount();
     koi.length = Math.min(koi.length, target);
     let guard = 0;
@@ -734,7 +738,7 @@ function createKoiPond(mount) {
       const x = Math.random() * PW, y = Math.random() * PH;
       if (sdPond(x, y) < -8) koi.push(makeKoi(x, y));
     }
-    if (lilies.length !== lilyCount()) seedLilies(lilyCount());
+    if (!keepLilies && lilies.length !== lilyCount()) seedLilies(lilyCount());
   }
 
   function refit() {
@@ -807,8 +811,84 @@ function createKoiPond(mount) {
   const themeMO = new MutationObserver(paintUnderlay);
   themeMO.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
+  // ------------------------------------------------------------ persistence
+  // The whole scene is a few KB of numbers, so it is saved once as the page
+  // unloads and restored by the next page. Anything unexpected in the saved
+  // data falls back to a fresh pond.
+  const persistKey = options && options.persistKey;
+  const STATE_VERSION = 1;
+  const KOI_FIELDS = ['id', 'len', 'segLen', 'width', 'heading', 'turnTarget', 'speed',
+                      'cruise', 'z', 'zTarget', 'beat', 'wanderPhase', 'surfacedAt'];
+
+  function save() {
+    if (!persistKey) return;
+    const state = {
+      v: STATE_VERSION, PW, PH, simTime, nextId,
+      koi: koi.map(k => {
+        const o = { variety: VARIETIES.indexOf(k.variety), spine: k.spine.map(p => [p.x, p.y]) };
+        for (const f of KOI_FIELDS) o[f] = k[f];
+        return o;
+      }),
+      lilies, food, ripples,
+    };
+    const json = JSON.stringify(state, (key, v) => typeof v === 'number' ? Math.round(v * 1000) / 1000 : v);
+    try { sessionStorage.setItem(persistKey, json); } catch (e) { /* storage off or full */ }
+  }
+
+  // Returns false if nothing usable was saved, otherwise 'same' or 'resized'
+  // depending on whether the saved pond had this pond's dimensions.
+  function restore() {
+    if (!persistKey) return false;
+    let st;
+    try { st = JSON.parse(sessionStorage.getItem(persistKey)); } catch (e) { return false; }
+    if (!st || st.v !== STATE_VERSION || !(st.PW > 0) || !(st.PH > 0) ||
+        !Array.isArray(st.koi) || !Array.isArray(st.lilies) ||
+        !Array.isArray(st.food) || !Array.isArray(st.ripples)) return false;
+    const ok = n => typeof n === 'number' && isFinite(n);
+    const restored = [];
+    for (const o of st.koi) {
+      if (!o || !VARIETIES[o.variety] || !Array.isArray(o.spine) || o.spine.length !== JOINTS) return false;
+      const k = { variety: VARIETIES[o.variety], spine: [] };
+      for (const f of KOI_FIELDS) { if (!ok(o[f])) return false; k[f] = o[f]; }
+      for (const p of o.spine) {
+        if (!Array.isArray(p) || !ok(p[0]) || !ok(p[1])) return false;
+        k.spine.push({ x: p[0], y: p[1] });
+      }
+      restored.push(k);
+    }
+    const allOk = (list, keys) => list.every(o => o && keys.every(f => ok(o[f])));
+    if (!allOk(st.lilies, ['x', 'y', 'r', 'notch', 'bob']) ||
+        !allOk(st.food, ['x', 'y', 'z', 'life']) ||
+        !allOk(st.ripples, ['x', 'y', 't0', 'amp', 'speed'])) return false;
+
+    koi.length = 0; koi.push(...restored);
+    lilies.length = 0; lilies.push(...st.lilies);
+    food.length = 0; food.push(...st.food.map(f => ({ ...f, floats: !!f.floats })));
+    ripples.length = 0; ripples.push(...st.ripples);
+    simTime = ok(st.simTime) ? st.simTime : 0;
+    nextId = ok(st.nextId) ? st.nextId : koi.length;
+    // the saved pond may have been a different size
+    const same = Math.abs(st.PW - PW) < 0.01 && Math.abs(st.PH - PH) < 0.01;
+    if (!same) rescaleWorld(PW / st.PW, PH / st.PH);
+    return same ? 'same' : 'resized';
+  }
+
+  // Back/forward can bring this page back from the browser's page cache with
+  // its old pond; take the newer one the other page saved instead.
+  function onPageShow(e) {
+    const r = e.persisted && restore();
+    if (r) { repopulate(r === 'same'); draw(); }
+  }
+  if (persistKey) {
+    window.addEventListener('pagehide', save);
+    window.addEventListener('pageshow', onPageShow);
+  }
+
   // boot
-  refit();
+  fitAndMeasure();
+  const restored = restore();
+  if (restored) repopulate(restored === 'same'); else seed();
+  draw();
   if (document.fonts && document.fonts.ready) {
     document.fonts.ready.then(() => { if (!destroyed) refit(); });
   }
@@ -823,6 +903,8 @@ function createKoiPond(mount) {
       ro.disconnect();
       document.removeEventListener('visibilitychange', syncLoop);
       themeMO.disconnect();
+      window.removeEventListener('pagehide', save);
+      window.removeEventListener('pageshow', onPageShow);
       pond.removeEventListener('pointerdown', onPointerDown);
       pond.remove();
       mount.classList.remove('koi-pond--still');

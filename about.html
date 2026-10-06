@@ -1,18 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="theme.js"></script>
   <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="koi-pond.css">
+  <link rel="stylesheet" href="pond-page.css">
   <title>About - Aswin</title>
   <style>
     body {
       margin: 0;
       font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-      background: #f0efef;
+      background: #e5f0e5;
       color: #1f1f1f;
-      padding: 3rem 1.5rem 4rem;
+      padding: 4rem 1.5rem 4rem;
     }
 
     main {
@@ -83,9 +85,31 @@
       gap: 0.9rem;
     }
 
+    /* the intro uses the panel's full width rather than the 52rem cap */
+    .intro p {
+      max-width: none;
+    }
+
+    .inspiration h4 {
+      margin: 0 0 0.75rem;
+    }
+
+    .inspiration p {
+      max-width: none;
+    }
+
+    /* photo below the text, centred; max-width sets its size */
+    .inspiration img {
+      display: block;
+      width: 100%;
+      max-width: 40rem;
+      height: auto;
+      margin: 1.25rem auto 0;
+    }
+
     @media (max-width: 640px) {
       body {
-        padding: 2rem 1rem 3rem;
+        padding: 4rem 1rem 3rem;
       }
 
       .page-heading {
@@ -118,24 +142,36 @@
   </style>
 </head>
 <body>
-  <main>
+  <main class="panel">
     <a class="back-link" href="index.html">Back</a>
     <div class="page-heading">
       <h1>About Me</h1>
       <a class="cv-link" href="files/CV2026.pdf">CV </a>
     </div>
 
-    <section>
+    <section class="intro">
       <!-- <h2>Background</h2> -->
       <div class="content-block">
-        <p>Hello, I'm Aswin R Nair! I am currently a Research Assistant at the Raman Research Institute in Bengaluru. I create simulations for radiative transport in the Interstellar Medium. I graduated with a bachelor's in physics and master's degree in astrophysics from the Indian Institute of Science Education and Research, Mohali in 2025.</p>
-        <p>In the past I have worked on various numerical simulations that deal with diverse astrophysical phenomena, where I use both analytical (equations and stuff) and computational methods (simulations and stuff) to model and understand these systems. The latest of which is my masters thesis. It was on "Numerical Simulation of Accretion onto Compact Objects with Hard Surface" and you can read more about it <a class="inline-link" href="research.html">here</a>.</p>
-        <p>Right now I am trying to transition into the field of Technical AI safety. Although my primary academic interest was astrophysics in the past, the tremendous potential of AI has impressed me. I personally susbscribe to the idea that AI can bring about a utopia, a golden age where solving the problems of the world is no longer constrained by capability. However possessing this level of capability also poses serious risks. Traditionally powerful technology often falls into misuse but we also run into a problem that is unique to the technology - misalignment. Preventing AI from exposing humanity to grave danger through misuse and misalignment is an existential problem, and I feel like contributing to such an impactful problem is a fulfilling use of my time and energy. Governance and policy changes paired with tehcnical safety efforts is how we are currently attacking this problem, I feel like my experiences in computational astrophysics will help me contribute through the technical front.</p>          
-        <p>I was part of the BlueDot Impact Technical AI safety May 2026 cohort. I am working on a personal project that involves understanding what we can learn from activation directions extracted from different evaluation datasets. My latest work involved investigating "Can Models learn to hide activations, without being taught to" as part of the BlueDot Impact Technical AI safety project. </p>
+        <p>Hello, I'm Aswin R Nair! I am currently a Research Assistant at the Raman Research Institute in Bengaluru. I graduated with a bachelor's in physics and master's degree in astrophysics from the Indian Institute of Science Education and Research, Mohali, India in 2025.</p>
+        <p>I have worked on various numerical simulations that deal with diverse astrophysical phenomena, where I use both analytical (equations and stuff) and computational methods (simulations and stuff) to model and understand these systems. Currently, I create simulations for radiative transport in the astrophysical medium. My masters thesis used fluid simulation to understand how gas falls onto Neutron stars. You can read more about these simulations <a class="inline-link" href="research.html">here</a>.</p>
+                  
+        <p>I was part of the BlueDot Impact Technical AI safety May 2026 cohort. I have a personal project that involves understanding what we can learn from activation directions extracted from different evaluation datasets. My latest work involved investigating "Can Models learn to hide activations, without being taught to" as part of the BlueDot Impact Technical AI safety project. </p>
       </div>
+    </section>
+
+    <section class="inspiration">
+      <div>
+        <h4>Website design inspiration</h4>
+        <p>I love watching my pet Guppy fish swim around in their pond.They always swim around pretty peacefully, until you drop their feed in. Their random yet purposeful swimming pattern seemed like an interesting system to simulate and I wanted to capture that magic in this website.</p>
+      </div>
+      <img src="files/guppies-web.jpg" width="1800" height="976" loading="lazy"
+           alt="Guppies swimming among duckweed and floating plants in a green pond, seen from above">
     </section>
 
     
   </main>
+  <div class="koi-pond"></div>
+  <script src="koi-pond.js"></script>
+  <script>createKoiPond(document.querySelector('.koi-pond'), { persistKey: 'koi-pond' });</script>
 </body>
 </html>

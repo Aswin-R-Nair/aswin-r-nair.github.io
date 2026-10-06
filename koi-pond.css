@@ -1,24 +1,25 @@
 /* ASCII koi pond. Everything is scoped to .koi-pond; see koi-pond.js. */
 
 .koi-pond {
-  /* Light site. The water starts at the page colour and eases into a pale
-     blue towards the middle, so it has no edge. Waves and fish shadows are
-     a darker blue than the water. The koi are inverted like an ink drawing:
-     white koi are charcoal and black markings are pale, since white has no
-     contrast against the page. Orange keeps its hue. Deep (dim) koi fade
-     towards the page. */
-  --water-shallow: #f0efef;
-  --water-deep:    #cde1f1;
-  --water-faint: #b6d0e6;
-  --glint:       #8bb8d8;
-  --shadow:      #b3cbe0;
+  /* Light site, coloured after the guppy pond photo on the About page. The
+     page is a pale green and the water deepens to a mid green towards the
+     middle, so it has no edge. Waves and fish shadows are darker greens and
+     lily pads are the yellow-green of duckweed. The koi are inverted like an
+     ink drawing: white koi are charcoal and black markings are pale. Deep
+     (dim) koi fade towards the page. --water-shallow must match the page
+     background. */
+  --water-shallow: #e5f0e5;
+  --water-deep:    #97ceb1;
+  --water-faint: #b6d8c6;
+  --glint:       #5bae85;
+  --shadow:      #6aaf8c;
   --koi-white:   #35332f;
   --koi-orange:  #f47149;
   --koi-black:   #ffffff;
   --dim-white:   #8b867d;
   --dim-orange:  #dc9f8a;
   --dim-black:   #f2f1f1;
-  --lily:        #4a8554;
+  --lily:        #8db33a;
   --food:        #c9952e;
   --dim-food:    #e3c792;
 

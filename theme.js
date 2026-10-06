@@ -1,12 +1,12 @@
 // Light/dark theme. Loaded synchronously in <head> so data-theme is set
-// before first paint. Follows the system setting until the visitor picks one
-// with the toggle; that choice is remembered in localStorage.
+// before first paint. Dark by default (the pages also carry data-theme="dark"
+// in their markup for visitors without JS); a visitor's choice from the
+// toggle is remembered in localStorage.
 (function () {
   'use strict';
 
   const KEY = 'theme';
   const root = document.documentElement;
-  const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
 
   function stored() {
     try { return localStorage.getItem(KEY); } catch (e) { return null; }
@@ -17,8 +17,7 @@
 
   function current() {
     const s = stored();
-    if (s === 'light' || s === 'dark') return s;
-    return systemDark.matches ? 'dark' : 'light';
+    return s === 'light' ? 'light' : 'dark';
   }
 
   function apply(theme) {
@@ -32,7 +31,6 @@
   }
 
   apply(current());
-  systemDark.addEventListener('change', () => { if (!stored()) apply(current()); });
 
   const SUN = '<svg class="theme-toggle__sun" viewBox="0 0 24 24" aria-hidden="true">' +
     '<circle cx="12" cy="12" r="4.5"/>' +
